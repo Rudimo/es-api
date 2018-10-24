@@ -1,0 +1,17 @@
+{
+  "name": "es-test-project",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "elasticsearch": "^15.1.1",
+    "express": "4.14.0",
+    "morgan": "^1.9.1",
+    "request": "2.72.0",
+    "serve": "latest"
+  }
+}
