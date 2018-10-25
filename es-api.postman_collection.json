@@ -6,6 +6,258 @@
 	},
 	"item": [
 		{
+			"name": "Test Morfology",
+			"item": [
+				{
+					"name": "analyze",
+					"item": [
+						{
+							"name": "Analyze Text Russian Advanced",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"analyzer\" : \"russian_morphology\",\n  \"text\" : \"Рукоятка крепится на шарнире. Можно выбрать либо прямое положение, либо пистолетное.\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9200/_analyze",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"_analyze"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Analyze Text Russian SImple",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"analyzer\" : \"russian\",\n  \"text\" : \"Рукоятка крепится на шарнире. Можно выбрать либо прямое положение, либо пистолетное.\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9200/_analyze",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"_analyze"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Explain",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"query\" : {\n        \"match\" : {\n        \t\"message\" : \"elasticsearch\"\n        }\n\t}\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9200/rustest/_doc/1/_explain",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9200",
+									"path": [
+										"rustest",
+										"_doc",
+										"1",
+										"_explain"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Create Index",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"settings\": {\n    \"analysis\": {\n      \"analyzer\": {\n        \"my_analyzer\": {\n          \"type\": \"custom\",\n          \"tokenizer\": \"standard\",\n          \"filter\": [\"lowercase\", \"russian_morphology\", \"english_morphology\", \"my_stopwords\"]\n        }\n      },\n      \"filter\": {\n        \"my_stopwords\": {\n          \"type\": \"stop\",\n          \"stopwords\": \"а,без,более,бы,был,была,были,было,быть,в,вам,вас,весь,во,вот,все,всего,всех,вы,где,да,даже,для,до,его,ее,если,есть,еще,же,за,здесь,и,из,или,им,их,к,как,ко,когда,кто,ли,либо,мне,может,мы,на,надо,наш,не,него,нее,нет,ни,них,но,ну,о,об,однако,он,она,они,оно,от,очень,по,под,при,с,со,так,также,такой,там,те,тем,то,того,тоже,той,только,том,ты,у,уже,хотя,чего,чей,чем,что,чтобы,чье,чья,эта,эти,это,я,a,an,and,are,as,at,be,but,by,for,if,in,into,is,it,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with\"\n        }\n      }\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/rustest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"rustest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Mapping",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"properties\": {\n        \"body\": {\n          \"type\": \"text\",\n          \"index\": true,\n          \"search_analyzer\": \"my_analyzer\",\n          \"analyzer\": \"my_analyzer\",\n          \"term_vector\": \"with_positions_offsets_payloads\"\n        }\n   }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/rustest/_mapping/doc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"rustest",
+								"_mapping",
+								"doc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Doc 1",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"body\": \"Рукоятка крепится на шарнире. Можно выбрать либо прямое положение, либо пистолетное.\"}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/rustest/doc/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"rustest",
+								"doc",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:9200/rustest/doc/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"rustest",
+								"doc",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"match\": {\n      \"body\": \"крепится\"\n    }\n  }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:9200/rustest/doc/_search?pretty=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9200",
+							"path": [
+								"rustest",
+								"doc",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "pretty",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "root",
 			"request": {
 				"method": "GET",
@@ -35,7 +287,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8001/get?id=1&index=tai1&type=tat1",
+					"raw": "http://localhost:8001/get?id=1&index=index&type=type",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -51,11 +303,11 @@
 						},
 						{
 							"key": "index",
-							"value": "tai1"
+							"value": "index"
 						},
 						{
 							"key": "type",
-							"value": "tat1"
+							"value": "type"
 						}
 					]
 				}
@@ -65,14 +317,21 @@
 		{
 			"name": "analize",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n  \"analyzer\" : \"russian_morphology\",\n  \"text\" : \"Исполнитель прав требовать\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8001/analize?id=1&index=tai1&type=tat1&analyzeType=russian_morphology",
+					"raw": "http://localhost:8001/analize",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -80,34 +339,6 @@
 					"port": "8001",
 					"path": [
 						"analize"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "1"
-						},
-						{
-							"key": "index",
-							"value": "tai1"
-						},
-						{
-							"key": "type",
-							"value": "tat1"
-						},
-						{
-							"key": "analyzeType",
-							"value": "tai_analyzer",
-							"disabled": true
-						},
-						{
-							"key": "analyzeType",
-							"value": "russian_morphology"
-						},
-						{
-							"key": "analyzeType",
-							"value": "russian",
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -210,7 +441,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"title\": \"Исполнитель вправе требовать с Заказчика уплаты неустойки (пени) в размере 50 процентов от неуплаченной суммы за каждый день просрочки\",\n\t\"id\": 1,\n\t\"index\": \"tai1\",\n\t\"type\": \"tat1\"\n}"
+					"raw": "{\n\t\"index\": \"index\",\n    \"type\": \"type\",\n    \"id\": 1,\n    \"body\": {\n    \t\"title\": \"Исполнитель вправе требовать\"\n    }\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8001/create",
@@ -307,7 +538,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\": 3,\n\t\"index\": \"myindex\",\n\t\"type\": \"mytype\",\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"title\": \"Исполнитель\" \n\t\t}\n\t}\n}"
+					"raw": "{\n\t\"id\": 1,\n\t\"index\": \"index\",\n\t\"type\": \"type\",\n\t\"body\": {\n\t\t\"query\": {\n\t\t\t\"match\": {\n\t\t\t\t\"title\": \"прав\" \n\t\t\t}\n\t\t}\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8001/explain",
@@ -321,6 +552,38 @@
 					"port": "8001",
 					"path": [
 						"explain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"index\": \"index\",\n\t\"q\": \"Исполнитель вправе требовать\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/search",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"search"
 					]
 				}
 			},
