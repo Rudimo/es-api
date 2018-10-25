@@ -72,7 +72,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8001/analize?id=1&index=tai1&type=tat1&analyzeType=tai_analyzer",
+					"raw": "http://localhost:8001/analize?id=1&index=tai1&type=tat1&analyzeType=russian_morphology",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -80,6 +80,57 @@
 					"port": "8001",
 					"path": [
 						"analize"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						},
+						{
+							"key": "index",
+							"value": "tai1"
+						},
+						{
+							"key": "type",
+							"value": "tat1"
+						},
+						{
+							"key": "analyzeType",
+							"value": "tai_analyzer",
+							"disabled": true
+						},
+						{
+							"key": "analyzeType",
+							"value": "russian_morphology"
+						},
+						{
+							"key": "analyzeType",
+							"value": "russian",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMapping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8001/get-mapping?id=1&index=tai1&type=tat1&analyzeType=tai_analyzer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"get-mapping"
 					],
 					"query": [
 						{
@@ -206,6 +257,38 @@
 					"path": [
 						"index",
 						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putMapping",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"analyzeType\": \"tai_analyzer\",\n\t\"index\": \"tai1\",\n\t\"type\": \"tat1\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8001/put-mapping",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8001",
+					"path": [
+						"put-mapping"
 					]
 				}
 			},
