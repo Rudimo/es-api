@@ -115,6 +115,67 @@ router.get('/analize', async (req, res) => {
     }
 });
 
+router.put('/put-mapping', async (req, res) => {
+    try {
+        const index = req.query.index;
+        const type = req.query.type;
+        const id = req.query.id;
+        const analyzeType = req.query.analyzeType;
+
+
+        const data = await client.indices.putMapping({
+            index,
+            type,
+            body: {
+                properties: {
+                    text: {
+                        type: "text",
+                        index: true,
+                        search_analyzer: analyzeType,
+                        analyzer: analyzeType,
+                        term_vector: "with_positions_offsets_payloads"
+                    }
+                }
+            }
+        });
+
+        res.send(data);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+router.get('/get-mapping', async (req, res) => {
+    try {
+        const index = req.query.index;
+        const type = req.query.type;
+        const id = req.query.id;
+        const analyzeType = req.query.analyzeType;
+
+
+        const data = await client.indices.getMapping({
+            id,
+            index,
+            type,
+            body: {
+                properties: {
+                    body: {
+                        type: "text",
+                        index: true,
+                        search_analyzer: analyzeType,
+                        analyzer: analyzeType,
+                        term_vector: "with_positions_offsets_payloads"
+                    }
+                }
+            }
+        });
+
+        res.send(data);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
 router.post('/explain', async (req, res) => {
     try {
 
