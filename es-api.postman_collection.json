@@ -287,7 +287,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8001/get?id=1&index=index&type=type",
+					"raw": "http://localhost:8001/get?id=1&index=qwe&type=qwe_type",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -303,11 +303,11 @@
 						},
 						{
 							"key": "index",
-							"value": "index"
+							"value": "qwe"
 						},
 						{
 							"key": "type",
-							"value": "type"
+							"value": "qwe_type"
 						}
 					]
 				}
@@ -328,7 +328,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"analyzer\" : \"russian_morphology\",\n  \"text\" : \"Исполнитель прав требовать\"\n}"
+					"raw": "{\n\t\"analyzer\": \"my_analyzer\",\n\t\"field\": \"title\",\n\t\"index\" : \"qwe\",\n\t\"text\" : \"Исполнитель был прав требовать, ,они,оно,от,очень,по,под,\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8001/analize",
@@ -441,7 +441,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"index\": \"index\",\n    \"type\": \"type\",\n    \"id\": 1,\n    \"body\": {\n    \t\"title\": \"Исполнитель вправе требовать\"\n    }\n}"
+					"raw": "{\n\t\"index\": \"index\",\n    \"type\": \"type\",\n    \"id\": 4,\n    \"body\": {\n    \t\"title\": \"Исполнитель вправе требовать\"\n    }\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8001/create",
@@ -473,7 +473,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"index\": \"tai1\"\n}"
+					"raw": "{\n    \"settings\": {\n        \"analysis\": {\n            \"analyzer\": {\n                \"my_analyzer\": {\n                    \"type\": \"custom\",\n                    \"tokenizer\": \"standard\",\n                    \"filter\": [\n                        \"lowercase\",\n                        \"russian_morphology\",\n                        \"english_morphology\",\n                        \"my_stopwords\"\n                    ]\n                }\n            },\n            \"filter\": {\n                \"my_stopwords\": {\n                    \"type\": \"stop\",\n                    \"stopwords\": \"а,без,более,бы,был,была,были,было,быть,в,вам,вас,весь,во,вот,все,всего,всех,вы,где,да,даже,для,до,его,ее,если,есть,еще,же,за,здесь,и,из,или,им,их,к,как,ко,когда,кто,ли,либо,мне,может,мы,на,надо,наш,не,него,нее,нет,ни,них,но,ну,о,об,однако,он,она,они,оно,от,очень,по,под,при,с,со,так,также,такой,там,те,тем,то,того,тоже,той,только,том,ты,у,уже,хотя,чего,чей,чем,что,чтобы,чье,чья,эта,эти,это,я,a,an,and,are,as,at,be,but,by,for,if,in,into,is,it,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with\"\n                }\n            }\n        }\n    },\n    \"mappings\": {\n\t    \"qwe_type\": {\n\t      \"_all\": {\n\t        \"type\": \"string\",\n\t        \"analyzer\": \"qwe_analyzer\"\n\t      },\n\t      \"properties\": {\n\t        \"title\": {\n\t          \"type\": \"string\",\n\t          \"include_in_all\": true,\n\t          \"analyzer\": \"qwe_analyzer\"\n\t        }\n\t      }\n\t    }\n\t}\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8001/index/create",
@@ -570,7 +570,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"index\": \"index\",\n\t\"q\": \"Исполнитель вправе требовать\"\n}"
+					"raw": "{\n\t\"index\": \"qwe\",\n\t\"q\": \"Исполнитель вправе требовать\",\n\t\"analyzer\": \"qwe_analyzer\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8001/search",
