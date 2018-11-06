@@ -60,6 +60,17 @@ router.post('/search', async (req, res) => {
     }
 });
 
+router.post('/searchAll', async (req, res) => {
+    try {
+
+        const response = await client.search();
+        res.send(response);
+    } catch (e) {
+        res.status(500).send(e);
+    }
+});
+
+
 router.post('/analize', async (req, res) => {
     try {
         const query = req.body;
@@ -86,12 +97,10 @@ router.post('/explain', async (req, res) => {
 
 router.put('/index/create', async (req, res) => {
     try {
-        const query = req.body.index;
+        const query = req.body;
 
         const data = await client.create(query);
-        // const data = await client.indices.create(query);
-        // "word_list",
-        // "word_list_path"
+        // const data = await client.indices.putMapping(query);
         res.send(data);
     } catch (e) {
         res.status(500).send(e);
